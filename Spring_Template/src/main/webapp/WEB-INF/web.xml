@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="4.0"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee                       
+	http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+	
+	
+	
+	<!-- contextConfigLocation: root-context 설정 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/appServlet/root-context.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	
+		
+	<!-- DispatcherServlet: servlet-context 설정 -->
+	<servlet>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value> <!-- line으로 구분지어서 param-value에 여러개의 xml 설정 가능 -->
+			/WEB-INF/spring/appServlet/servlet-context.xml
+			/WEB-INF/spring/appServlet/aop-context.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup> <!-- 초기화 순서 -->
+	</servlet>
+
+	<!-- Map all requests to the DispatcherServlet for handling -->
+	<servlet-mapping>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<url-pattern>*.do</url-pattern> <!-- .do 로 끝나는 경우로 적용할 경우 -->
+		<!-- <url-pattern>/spring/</url-pattern> --><!-- 한 곳에만 적용할 경우 -->
+	</servlet-mapping>
+	
+	<!-- encoding filter 설정 -->
+	<filter>
+		<filter-name>encodingFileter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFileter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- logger filter설정 -->
+	<filter>
+		<filter-name>loggerFilter</filter-name>
+		<filter-class>com.min.edu.filter.LoggerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loggerFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	
+</web-app>
+
+
+
+
+
+
